@@ -1,63 +1,63 @@
+//é“¾è¡¨åˆå§‹åŒ–å’Œä¸‰ä¸ªåå‘æ–¹æ³•
+
 #include<iostream>
-
 using namespace std;
-
-typedef struct Node    //Ò»¸öµ¥¶ÀµÄ½Úµã
+typedef struct Node    //ä¸€ä¸ªå•ç‹¬çš„èŠ‚ç‚¹
 {
-	int data;//Êı¾İÓò
-	struct Node * pNext;//Ö¸ÕëÓò
+	int data;//æ•°æ®åŸŸ
+	struct Node * pNext;//æŒ‡é’ˆåŸŸ
 }NODE, *PNODE; 
 
 PNODE init_list()
 {
-	int len;//Á´±íµÄ³¤¶È
-	int i;//Ñ­»·¿ª¹Ø
-	int val;//½ÚµãµÄÖµ
+	int len;//é“¾è¡¨çš„é•¿åº¦
+	int i;//å¾ªç¯å¼€å…³
+	int val;//èŠ‚ç‚¹çš„å€¼
 
-	PNODE pHead = (PNODE)malloc(sizeof(NODE));//Ôì³öÍ·½áµã
+	PNODE pHead = (PNODE)malloc(sizeof(NODE));//é€ å‡ºå¤´ç»“ç‚¹
 
 	if (NULL == pHead)
 	{
-		printf("Á´±í¶¯Ì¬·ÖÅäÊ§°Ü£¡³ÌĞòÖÕÖ¹£¡\n");
+		printf("é“¾è¡¨åŠ¨æ€åˆ†é…å¤±è´¥ï¼ç¨‹åºç»ˆæ­¢ï¼\n");
 		exit(-1);
 	}
 	else
 	{
-		printf("ÇëÊäÈëÒª´´½¨Á´±íµÄ³¤¶Èlen=");
+		printf("è¯·è¾“å…¥è¦åˆ›å»ºé“¾è¡¨çš„é•¿åº¦len=");
 		scanf_s("%d", &len);
 
 		if (0 == len)
 		{
 			pHead->pNext = NULL;
-			return pHead;  //¶Ô¿ÕÁ´±íµÄ´¦Àí
+			return pHead;  //å¯¹ç©ºé“¾è¡¨çš„å¤„ç†
 		}
-		if (len<0)  //¶Ô³¤¶ÈÎª¸ºÊıµÄ´¦Àí
+		if (len<0)  //å¯¹é•¿åº¦ä¸ºè´Ÿæ•°çš„å¤„ç†
 		{
-			printf("Á´±íµÄ³¤¶È²»ÄÜÎª¸ºÊı£¡\n");
+			printf("é“¾è¡¨çš„é•¿åº¦ä¸èƒ½ä¸ºè´Ÿæ•°ï¼\n");
 			exit(-1);
 		}
 
-		PNODE pTail = pHead;//pTailÖ¸ÏòµÄÊÇÎ²½Úµã
+		PNODE pTail = pHead;//pTailæŒ‡å‘çš„æ˜¯å°¾èŠ‚ç‚¹
 		pTail->pNext = NULL;
 
 		for (i = 0; i<len; i++)
 		{
-			PNODE pNew = (PNODE)malloc(sizeof(NODE));//Ôì³öĞÂµÄ½Úµã
-			printf("ÇëÊäÈëµÚ%d¸ö½ÚµãµÄÊıÖµval =", i + 1);
+			PNODE pNew = (PNODE)malloc(sizeof(NODE));//é€ å‡ºæ–°çš„èŠ‚ç‚¹
+			printf("è¯·è¾“å…¥ç¬¬%dä¸ªèŠ‚ç‚¹çš„æ•°å€¼val =", i + 1);
 			scanf_s("%d", &val);
 
-			pNew->data = val;  //¸³Öµ
-			pTail->pNext = pNew; //Á¬½ÓĞÂµÄ½Úµã
-			pTail = pNew;      //pTailºóÒÆ
+			pNew->data = val;  //èµ‹å€¼
+			pTail->pNext = pNew; //è¿æ¥æ–°çš„èŠ‚ç‚¹
+			pTail = pNew;      //pTailåç§»
 		}
-		pTail->pNext = NULL;//×îºóÒ»¸ö½ÚµãµÄÖ¸ÕëÓò±ØĞëÎª¿Õ
-		return pHead; //·µ»ØÍ·½áµãÒÔÓÃÀ´±íÊ¾Õû¸öÁ´±í
+		pTail->pNext = NULL;//æœ€åä¸€ä¸ªèŠ‚ç‚¹çš„æŒ‡é’ˆåŸŸå¿…é¡»ä¸ºç©º
+		return pHead; //è¿”å›å¤´ç»“ç‚¹ä»¥ç”¨æ¥è¡¨ç¤ºæ•´ä¸ªé“¾è¡¨
 
 
 	}
 }
 
-Node* ReverseList(Node* pHead)
+Node* reverse1(Node* pHead)
 {
 	Node* pReversedHead = NULL;
 	Node* pNode = pHead;
@@ -78,10 +78,39 @@ Node* ReverseList(Node* pHead)
 	}
 
 	return pReversedHead;
+
 }
+
+NODE* reverse2(NODE * head)
+{
+	NODE *pre = NULL;
+	NODE* next;
+	while (head)
+	{
+		next = head->pNext;
+		head->pNext = pre;
+		pre = head;
+		head = next;
+	}
+	return pre;
+}
+
+
+NODE* reverse3(NODE * head)
+{
+	if (head == NULL || head->pNext == NULL)
+		return head;
+	NODE* newhead = NULL;
+	newhead = reverse3(head->pNext);
+	head->pNext->pNext = head;
+	head->pNext = NULL;
+
+	return newhead;
+}
+
 int main()
 {
 	Node *p1 = init_list();
-	cout << ReverseList(p1)->pNext->pNext->data << endl;
+	cout << reverse3(p1)->pNext->data << endl;
 	system("pause");
 }
